@@ -29,10 +29,10 @@ namespace UomSystem
         {
             // kan hende databasen bør legges til i Data prosjektet, men how?
             //TODO FIX BUG HER
-            services.AddDbContext<RepositoryContext>(options => options.UseNpgsql("Host=my_host;Database=my_db;Username=my_user;Password=my_pw"));
+            //services.AddDbContext<RepositoryContext>(options => options.UseNpgsql("Host=my_host;Database=my_db;Username=my_user;Password=my_pw"));
             
-            //services.AddDbContext<RepositoryContext>(options =>
-            //options.UseNpgsql(Configuration.GetConnectionString("RepositoryContext")));
+            services.AddDbContext<RepositoryContext>(options =>
+            options.UseNpgsql(Configuration.GetConnectionString("RepositoryContext")));
             
             services.AddControllers();
         }
