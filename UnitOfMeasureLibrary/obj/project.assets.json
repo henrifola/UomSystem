@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/henni/RiderProjects/UomSystem/UnitOfMeasureLibrary/UnitOfMeasureLibrary.csproj",
+      "projectUniqueName": "/home/henni/uia/sem5/sw arkitektur/UomSystem/UnitOfMeasureLibrary/UnitOfMeasureLibrary.csproj",
       "projectName": "UnitOfMeasureLibrary",
-      "projectPath": "/home/henni/RiderProjects/UomSystem/UnitOfMeasureLibrary/UnitOfMeasureLibrary.csproj",
+      "projectPath": "/home/henni/uia/sem5/sw arkitektur/UomSystem/UnitOfMeasureLibrary/UnitOfMeasureLibrary.csproj",
       "packagesPath": "/home/henni/.nuget/packages/",
-      "outputPath": "/home/henni/RiderProjects/UomSystem/UnitOfMeasureLibrary/obj/",
+      "outputPath": "/home/henni/uia/sem5/sw arkitektur/UomSystem/UnitOfMeasureLibrary/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/henni/.nuget/NuGet/NuGet.Config"
