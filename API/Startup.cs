@@ -31,7 +31,7 @@ namespace UomSystem
             //TODO FIX BUG HER
             //services.AddDbContext<RepositoryContext>(options => options.UseNpgsql("Host=my_host;Database=my_db;Username=my_user;Password=my_pw"));
             
-            services.AddDbContext<RepositoryContext>(options => options.UseSqlite("Filename=units.db"));
+            services.AddDbContext<RepositoryContext>(options => options.UseSqlite("Filename=units.db")); //..\\Data\\
             
             services.AddControllers();
         }

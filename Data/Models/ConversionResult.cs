@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data.Models
 {
+    
     public class ConversionResult 
     {
         public double Quantity { get; set; }

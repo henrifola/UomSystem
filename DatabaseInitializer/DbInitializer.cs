@@ -10,15 +10,30 @@ namespace DatabaseInitializer
     {
         public static void Initialize(RepositoryContext context)
         {
+            
+            
+            XmlHandler xmlHandler = new XmlHandler();
+            
             context.Database.EnsureDeleted();
 
             context.Database.EnsureCreated();
             
-
-            context.UnitOfMeasures.Add(new UnitOfMeasure(id: "1Pkg", annotation: "1/kg", name: "per kilogram"));
-            context.UnitOfMeasures.Add(new UnitOfMeasure(id: "km", annotation: "km", name: "kilometer"));
+            var unitOfMeasures = xmlHandler.CreateUoms();
+            context.UnitOfMeasures.AddRange(unitOfMeasures);
+            
 
             context.SaveChanges();
+            Console.WriteLine("reading data");
+            Console.WriteLine(context.UnitOfMeasures.Find("yr(100k)" ).Name);
+            
+            var dimClass=context.DimenensionalClasses.Find("T");
+
+            Console.WriteLine("Units inside dim class "+ dimClass.Notation);
+            foreach (var unit in dimClass.Units)
+            {
+                Console.Write(unit.Name+ ", ");
+            }
+            
         }
     }
 }

@@ -437,6 +437,7 @@
     <UnitOfMeasure id="gu" annotation="gu">
       <Name>gas unit</Name>
       <QuantityType>volumic concentration</QuantityType>
+      <DimensionalClass>none</DimensionalClass>
       <CatalogName>POSC</CatalogName>
       <CatalogSymbol isExplicit="true">gu</CatalogSymbol>
       <BaseUnit>
