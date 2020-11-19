@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Data;
 using Data.Models;
@@ -12,6 +13,7 @@ namespace DatabaseInitializer
             context.Database.EnsureDeleted();
 
             context.Database.EnsureCreated();
+            
 
             context.UnitOfMeasures.Add(new UnitOfMeasure(id: "1Pkg", annotation: "1/kg", name: "per kilogram"));
             context.UnitOfMeasures.Add(new UnitOfMeasure(id: "km", annotation: "km", name: "kilometer"));

@@ -4,7 +4,7 @@ using System.Xml.Linq;
 namespace DatabaseInitializer
 {
     // TODO parsing diagram
-    public class XmlHandler 
+    public class XmlHandler  : IXmlHandler
     {
         private XElement data;
 

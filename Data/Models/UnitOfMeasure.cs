@@ -37,7 +37,9 @@ namespace Data.Models
 
         public UnitOfMeasure(string id, string annotation, string name)
         {
-            throw new NotImplementedException();
+            Id = id;
+            Annotation = annotation;
+            Name = name;
         }
 
 
