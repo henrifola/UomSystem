@@ -18,9 +18,9 @@ namespace DatabaseInitializer
 
             insert_xml_data(context);
             
-            
+            // Reading Tests
             Console.WriteLine("reading data");
-            Console.WriteLine(context.UnitOfMeasures.Find("yr(100k)" ).Name);
+            Console.WriteLine();
             
             var dimClass=context.DimenensionalClasses.Find("T");
 
@@ -29,15 +29,25 @@ namespace DatabaseInitializer
             {
                 Console.Write(unit.Name+ ", ");
             }
+
+            var u = context.UnitOfMeasures.Find("yr(100k)"); //gir object
+            var c= context.CustomaryUnits.Find("yr(100k)"); //gir object
+            var b = context.CustomaryUnits.Find("J"); //gir null
+            var b2 = context.UnitOfMeasures.Find("J"); //gir object
+            Console.WriteLine(u.Id);
+            Console.WriteLine(c.Id);
             
+
         }
 
         private static void insert_xml_data(RepositoryContext context)
         {
+            Console.WriteLine("Parsing xml..");
             XmlHandler xmlHandler = new XmlHandler();
-            var unitOfMeasures = xmlHandler.CreateUoms();
-            context.UnitOfMeasures.AddRange(unitOfMeasures);
-            
+            Console.WriteLine("writing to the database..");
+            context.UnitOfMeasures.AddRange(xmlHandler.unitOfMeasures);
+            context.CustomaryUnits.AddRange(xmlHandler.customaryUnits);
+            Console.WriteLine("Done.");
 
             context.SaveChanges();
         }

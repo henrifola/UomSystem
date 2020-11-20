@@ -16,7 +16,7 @@ namespace Data
         public DbSet<QuantityType> QuantityTypes { get; set; }
         
         
-        //public DbSet<ConversionResult> ConversionResults { get; set; }
+        public DbSet<CustomaryUnit> CustomaryUnits { get; set; }
         
         public DbSet<ConversionToBaseUnit> ConversionToBaseUnits { get; set; }
 

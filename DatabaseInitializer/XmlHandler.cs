@@ -9,13 +9,13 @@ using Data.Models;
 namespace DatabaseInitializer
 {
     // TODO parsing diagram
-    public class XmlHandler  : IXmlHandler
+    public class XmlHandler 
     {
         private XElement xml;
-        List<UnitOfMeasure> unitOfMeasures = new List<UnitOfMeasure>();
-        List<CustomaryUnit> customaryUnits = new List<CustomaryUnit>();
+        public List<UnitOfMeasure> unitOfMeasures  {get;}
+        public List<CustomaryUnit> customaryUnits { get; }
 
-        private HashSet<SameUnit> SameUnits;
+        private HashSet<SameUnit> SameUnits { get; }
 
         public List<SameUnit> GetSameUnits()
         {
@@ -27,7 +27,11 @@ namespace DatabaseInitializer
 
         public XmlHandler()
         {
+            unitOfMeasures = new List<UnitOfMeasure>();
+            customaryUnits = new List<CustomaryUnit>();
+            SameUnits = new HashSet<SameUnit>();
             xml=ReadFile();
+            CreateUoms();
         }
 
         public XElement ReadFile()
@@ -40,15 +44,13 @@ namespace DatabaseInitializer
         }
         
 
-        public List<UnitOfMeasure> CreateUoms()
+        public void CreateUoms()
         {
             
 
             var units = from item in xml.Descendants("UnitOfMeasure") select item;
             Console.WriteLine(units.FirstOrDefault());
             Console.WriteLine(units.Last());
-            
-            
             
             
             foreach (var unit in units)
@@ -79,7 +81,7 @@ namespace DatabaseInitializer
                     unit.DimensionalClass = dimensionalClasses[unit.DimensionClassId];
             }
 
-            return unitOfMeasures;
+            
 
             //public UnitOfMeasure(string id, string annotation, string name, DimensionalClass dimensionalClass,
             //ICollection<QuantityType> quantityTypes, List<SameUnit> sameUnits)
@@ -90,7 +92,8 @@ namespace DatabaseInitializer
         private void AddCustomaryComponent(XElement unit, CustomaryUnit unitOfMeasure)
         {
             ConversionToBaseUnit conversionToBaseUnit = new ConversionToBaseUnit();
-            
+
+            string id = (string) unit.Attribute("id");
 
             var conversion = unit.Descendants("ConversionToBaseUnit").First();
 
@@ -100,7 +103,7 @@ namespace DatabaseInitializer
 
             if (factor != null)
             {
-                unitOfMeasure.ConversionToBaseUnit = new ConversionToBaseUnit(baseUnit,
+                unitOfMeasure.ConversionToBaseUnit = new ConversionToBaseUnit(baseUnit, id,
                     0.0,(double) factor, 1.0, 0.0);
 
                 return;
@@ -110,7 +113,7 @@ namespace DatabaseInitializer
 
             if (fraction != null)
             {
-                unitOfMeasure.ConversionToBaseUnit = new ConversionToBaseUnit(baseUnit,
+                unitOfMeasure.ConversionToBaseUnit = new ConversionToBaseUnit(baseUnit, id,
                     0.0,(double) fraction.Element("Numerator"),(double) fraction.Element("Denominator") , 0.0);
                 return;
             }
@@ -120,7 +123,7 @@ namespace DatabaseInitializer
 
             if (formula != null)
             {
-                unitOfMeasure.ConversionToBaseUnit = new ConversionToBaseUnit(baseUnit,
+                unitOfMeasure.ConversionToBaseUnit = new ConversionToBaseUnit(baseUnit, id,
                     (double) formula.Element("A"),
                     (double) formula.Element("B"),
                     (double) formula.Element("C"),
