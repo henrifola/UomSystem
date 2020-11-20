@@ -12,17 +12,13 @@ namespace DatabaseInitializer
         {
             
             
-            XmlHandler xmlHandler = new XmlHandler();
-            
             context.Database.EnsureDeleted();
 
             context.Database.EnsureCreated();
-            
-            var unitOfMeasures = xmlHandler.CreateUoms();
-            context.UnitOfMeasures.AddRange(unitOfMeasures);
-            
 
-            context.SaveChanges();
+            insert_xml_data(context);
+            
+            
             Console.WriteLine("reading data");
             Console.WriteLine(context.UnitOfMeasures.Find("yr(100k)" ).Name);
             
@@ -34,6 +30,16 @@ namespace DatabaseInitializer
                 Console.Write(unit.Name+ ", ");
             }
             
+        }
+
+        private static void insert_xml_data(RepositoryContext context)
+        {
+            XmlHandler xmlHandler = new XmlHandler();
+            var unitOfMeasures = xmlHandler.CreateUoms();
+            context.UnitOfMeasures.AddRange(unitOfMeasures);
+            
+
+            context.SaveChanges();
         }
     }
 }

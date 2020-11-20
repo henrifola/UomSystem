@@ -10,13 +10,14 @@ namespace Data.Models
         public UnitOfMeasureQuantityType() { }
         
         
-        [Key]
-        [Column(Order=1)]
+        
         public QuantityType QuantityType { get; set; }
+        [Key,Column(Order=0)]
         public int QuantityTypeId { get; set; }
-        [Key]
-        [Column(Order=2)]
+        
         public UnitOfMeasure UnitOfMeasure { get; set; }
+        
+        //[Key,Column(Order = 1)]
         public string UnitOfMeasureId { get; set; }
         
         

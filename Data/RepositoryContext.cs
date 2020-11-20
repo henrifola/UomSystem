@@ -10,6 +10,15 @@ namespace Data
         
         public DbSet<UnitOfMeasure> UnitOfMeasures { get; set; }
         public DbSet<DimensionalClass> DimenensionalClasses { get; set; }
+        
+        public DbSet<SameUnit> SameUnits { get; set; }
+        
+        public DbSet<QuantityType> QuantityTypes { get; set; }
+        
+        
+        //public DbSet<ConversionResult> ConversionResults { get; set; }
+        
+        public DbSet<ConversionToBaseUnit> ConversionToBaseUnits { get; set; }
 
         
     }
