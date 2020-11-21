@@ -29,7 +29,7 @@ namespace Data.Models
             
             DimensionalClass = dimensionalClass;
             
-            //UnitOfMeasureQuantityTypes = new List<UnitOfMeasureQuantityType>();
+            UnitOfMeasureQuantityTypes = new List<UnitOfMeasureQuantityType>();
 
             SameUnits = sameUnits;
 
@@ -50,7 +50,7 @@ namespace Data.Models
         public string Name { get; set; }
         
         public string DimensionClassId { get; set; }
-        //public ICollection<UnitOfMeasureQuantityType> UnitOfMeasureQuantityTypes { get; set; }
+        public ICollection<UnitOfMeasureQuantityType> UnitOfMeasureQuantityTypes { get; set; }
         public List<SameUnit> SameUnits { get; set; }
     }
 }

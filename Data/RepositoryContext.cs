@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data
 {
+    
     public class RepositoryContext : DbContext
     {
         public RepositoryContext(DbContextOptions<RepositoryContext> options) : base(options)
@@ -19,7 +20,23 @@ namespace Data
         public DbSet<CustomaryUnit> CustomaryUnits { get; set; }
         
         public DbSet<ConversionToBaseUnit> ConversionToBaseUnits { get; set; }
+        
+       
+        // public DbSet<UnitOfMeasureQuantityType> UnitOfMeasureQuantityTypes { get; set; }
 
+        //to achieve two keys in a model class
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UnitOfMeasureQuantityType>().HasKey(u => new
+            {
+                u.UnitOfMeasureId,
+                u.QuantityTypeId
+            });
+        }
+        
         
     }
+
+
 }

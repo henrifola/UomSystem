@@ -15,12 +15,14 @@ namespace DatabaseInitializer
         public List<UnitOfMeasure> unitOfMeasures  {get;}
         public List<CustomaryUnit> customaryUnits { get; }
 
-        private HashSet<SameUnit> SameUnits { get; }
+        public HashSet<QuantityType> QunatiyTypes { get; }
+        public HashSet<SameUnit> SameUnits { get; }
+        
+       
 
-        public List<SameUnit> GetSameUnits()
-        {
-            return SameUnits.ToList();
-        }
+       
+       
+       
         
 
         Dictionary<string,DimensionalClass> dimensionalClasses = new Dictionary<string, DimensionalClass>();
@@ -30,6 +32,7 @@ namespace DatabaseInitializer
             unitOfMeasures = new List<UnitOfMeasure>();
             customaryUnits = new List<CustomaryUnit>();
             SameUnits = new HashSet<SameUnit>();
+            HashSet<QuantityType> QunatiyTypes = new HashSet<QuantityType>();
             xml=ReadFile();
             CreateUoms();
         }
@@ -91,7 +94,6 @@ namespace DatabaseInitializer
 
         private void AddCustomaryComponent(XElement unit, CustomaryUnit unitOfMeasure)
         {
-            ConversionToBaseUnit conversionToBaseUnit = new ConversionToBaseUnit();
 
             string id = (string) unit.Attribute("id");
 
@@ -144,8 +146,8 @@ namespace DatabaseInitializer
             var dim = unit.Descendants("DimensionalClass").FirstOrDefault();
             string dimensionalClassId = dim.Value;
 
-            
-            //AddSameUnits(units,unitsOfMeasure); atm gives error multiple keys 
+            //AddSameUnits(unit,unitOfMeasure);
+           AddQuantityType(unit,unitOfMeasure);
             
             if(!dimensionalClasses.ContainsKey(dimensionalClassId))
             {
@@ -162,6 +164,7 @@ namespace DatabaseInitializer
         void AddSameUnits(XElement unit, UnitOfMeasure unitOfMeasure)
         {
             var sameUnits = unit.Descendants("SameUnit");
+           
             
             foreach (var sameUnit in sameUnits)
             {
@@ -174,6 +177,39 @@ namespace DatabaseInitializer
                 }
             }
             
+        }
+
+        void AddQuantityType(XElement unit, UnitOfMeasure unitOfMeasure)
+        {
+            
+            
+            var quantityTypes = unit.Descendants("QuantityType");
+
+            //List<UnitOfMeasureQuantityType>  unitOfMeasureQuantityTypes=  new List<UnitOfMeasureQuantityType>();
+            foreach (var qType in quantityTypes)
+            {
+                if ((string) qType != null)
+                {
+                    var quantityType = new QuantityType((string) qType);
+                    
+                    /*
+                    var u = new UnitOfMeasureQuantityType
+                    {
+                        QuantityType = quantityType,
+                        UnitOfMeasure = unitOfMeasure,
+                        UnitOfMeasureId = unitOfMeasure.Id
+                    };
+                    u.QuantityType.UnitOfMeasureQuantityTypes = unitOfMeasureQuantityTypes;
+                    unitOfMeasureQuantityTypes.Add(u);
+                    */
+                    QunatiyTypes.Add(quantityType);
+                }
+                
+
+            }
+            
+
+            //unitOfMeasure.UnitOfMeasureQuantityTypes = unitOfMeasureQuantityTypes;
         }
 
 
