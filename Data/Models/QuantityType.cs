@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data.Models
 {
@@ -16,5 +17,6 @@ namespace Data.Models
         [Key] 
         public string Notation { get; set; }
         public ICollection<UnitOfMeasureQuantityType> UnitOfMeasureQuantityTypes { get; set; }
+        //public ICollection<UnitOfMeasure> UnitOfMeasures { get; set; }
     }
 }

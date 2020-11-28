@@ -1,20 +1,29 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data.Models
 {
+    
     public class UnitOfMeasureQuantityType
     {
         public UnitOfMeasureQuantityType() { }
-        
-        
-        [Key]
-        [Column(Order=1)]
+
+        public UnitOfMeasureQuantityType(QuantityType quantityType,  UnitOfMeasure unitOfMeasure, string unitOfMeasureId)
+        {
+            QuantityType = quantityType;
+            UnitOfMeasure = unitOfMeasure;
+            UnitOfMeasureId = unitOfMeasureId;
+        }
+
         public QuantityType QuantityType { get; set; }
-        public int QuantityTypeId { get; set; }
-        [Key]
-        [Column(Order=2)]
+        
+        public string QuantityTypeId { get; set; }
+        
         public UnitOfMeasure UnitOfMeasure { get; set; }
+        
+        
         public string UnitOfMeasureId { get; set; }
         
         

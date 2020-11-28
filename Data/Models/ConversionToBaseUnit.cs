@@ -1,19 +1,24 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data.Models
 {
     public class ConversionToBaseUnit
     {
-        public ConversionToBaseUnit() { }
+        public ConversionToBaseUnit()
+        {
+            
+        }
 
-        public ConversionToBaseUnit(string baseUnit, double a, double b, double c, double d)
+        public ConversionToBaseUnit(string baseUnit,string originUnit, double a, double b, double c, double d)
         {
             A = a;
             B = b;
             C = c;
             D = d;
-
+            
+            OriginUnit = originUnit;
             BaseUnit = baseUnit;
 
         }
@@ -24,8 +29,10 @@ namespace Data.Models
         public double C { get; set; }
         public double D { get; set; }
         
-        [Key]
+        
         public string BaseUnit { get; set; }
+        [Key]
+        public string OriginUnit { get; set; }
         
         
     }
