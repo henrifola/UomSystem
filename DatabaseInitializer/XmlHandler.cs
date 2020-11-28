@@ -11,28 +11,23 @@ namespace DatabaseInitializer
     // TODO parsing diagram
     public class XmlHandler 
     {
-        private XElement xml;
-        public List<UnitOfMeasure> unitOfMeasures  {get;}
-        public List<CustomaryUnit> customaryUnits { get; }
+        private readonly XElement xml;
+        public List<UnitOfMeasure> UnitOfMeasures  {get;}
+        public List<CustomaryUnit> CustomaryUnits { get; }
 
-        public HashSet<QuantityType> QunatiyTypes { get; }
+        public Dictionary<String,QuantityType> QuantityTypesDict { get; }
         public HashSet<SameUnit> SameUnits { get; }
-        
-       
-
-       
-       
-       
         
 
         Dictionary<string,DimensionalClass> dimensionalClasses = new Dictionary<string, DimensionalClass>();
 
         public XmlHandler()
         {
-            unitOfMeasures = new List<UnitOfMeasure>();
-            customaryUnits = new List<CustomaryUnit>();
+            
+            UnitOfMeasures = new List<UnitOfMeasure>();
+            CustomaryUnits = new List<CustomaryUnit>();
             SameUnits = new HashSet<SameUnit>();
-            HashSet<QuantityType> QunatiyTypes = new HashSet<QuantityType>();
+            QuantityTypesDict = new Dictionary<String,QuantityType>();
             xml=ReadFile();
             CreateUoms();
         }
@@ -67,29 +62,23 @@ namespace DatabaseInitializer
                     CustomaryUnit unitOfMeasure = new CustomaryUnit();
                     CreateUofMeasure(unit,unitOfMeasure);
                     AddCustomaryComponent(unit,unitOfMeasure);
-                    customaryUnits.Add(unitOfMeasure);
+                    CustomaryUnits.Add(unitOfMeasure);
                 }
                 else
                 {
                     UnitOfMeasure unitOfMeasure = new UnitOfMeasure();
                     CreateUofMeasure(unit,unitOfMeasure);
-                    unitOfMeasures.Add(unitOfMeasure);
+                    UnitOfMeasures.Add(unitOfMeasure);
                 }
                 
 
             }
 
-            foreach (var unit in unitOfMeasures)
+            foreach (var unit in UnitOfMeasures)
             {
                     unit.DimensionalClass = dimensionalClasses[unit.DimensionClassId];
             }
-
             
-
-            //public UnitOfMeasure(string id, string annotation, string name, DimensionalClass dimensionalClass,
-            //ICollection<QuantityType> quantityTypes, List<SameUnit> sameUnits)
-
-            //foreach (var v in test) { Console.WriteLine(v); }
         }
 
         private void AddCustomaryComponent(XElement unit, CustomaryUnit unitOfMeasure)
@@ -188,28 +177,37 @@ namespace DatabaseInitializer
             //List<UnitOfMeasureQuantityType>  unitOfMeasureQuantityTypes=  new List<UnitOfMeasureQuantityType>();
             foreach (var qType in quantityTypes)
             {
-                if ((string) qType != null)
-                {
-                    var quantityType = new QuantityType((string) qType);
-                    
-                    /*
-                    var u = new UnitOfMeasureQuantityType
-                    {
-                        QuantityType = quantityType,
-                        UnitOfMeasure = unitOfMeasure,
-                        UnitOfMeasureId = unitOfMeasure.Id
-                    };
-                    u.QuantityType.UnitOfMeasureQuantityTypes = unitOfMeasureQuantityTypes;
-                    unitOfMeasureQuantityTypes.Add(u);
-                    */
-                    QunatiyTypes.Add(quantityType);
-                }
+                string q = (string) qType;
+                if (q == null) continue;
                 
-
+                
+                QuantityType quantityType;
+                if (QuantityTypesDict.ContainsKey(q))
+                {
+                    quantityType = QuantityTypesDict[q];
+                }
+                else
+                {
+                    quantityType = new QuantityType((string) qType);
+                    QuantityTypesDict[q] = quantityType;
+                }
+                    
+                    
+                var u = new UnitOfMeasureQuantityType
+                {
+                    QuantityType = quantityType,
+                    UnitOfMeasure = unitOfMeasure,
+                    UnitOfMeasureId = unitOfMeasure.Id,
+                    QuantityTypeId = q
+                };
+                //u.QuantityType.UnitOfMeasureQuantityTypes.Add(u);
+                    
+                unitOfMeasure.UnitOfMeasureQuantityTypes.Add(u);
+                    
+                //QunatiyTypes.Add(quantityType);
+                
             }
-            
 
-            //unitOfMeasure.UnitOfMeasureQuantityTypes = unitOfMeasureQuantityTypes;
         }
 
 

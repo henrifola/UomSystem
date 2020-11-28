@@ -22,17 +22,14 @@ namespace Data
         public DbSet<ConversionToBaseUnit> ConversionToBaseUnits { get; set; }
         
        
-        // public DbSet<UnitOfMeasureQuantityType> UnitOfMeasureQuantityTypes { get; set; }
+        
+        public DbSet<UnitOfMeasureQuantityType> UnitOfMeasureQuantityTypes { get; set; }
 
         //to achieve two keys in a model class
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UnitOfMeasureQuantityType>().HasKey(u => new
-            {
-                u.UnitOfMeasureId,
-                u.QuantityTypeId
-            });
+            modelBuilder.Entity<UnitOfMeasureQuantityType>().HasKey(keys => new { keys.UnitOfMeasureId, keys.QuantityTypeId });
         }
         
         

@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ namespace Data.Models
 
         public QuantityType QuantityType { get; set; }
         
-        public int QuantityTypeId { get; set; }
+        public string QuantityTypeId { get; set; }
         
         public UnitOfMeasure UnitOfMeasure { get; set; }
         
