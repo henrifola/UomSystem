@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Data;
 using Data.Models;
+using Microsoft.EntityFrameworkCore.Storage;
 
 
 namespace DatabaseInitializer
@@ -14,11 +15,13 @@ namespace DatabaseInitializer
 
             context.Database.EnsureDeleted();
 
-            context.Database.EnsureCreated();
+            var created= context.Database.EnsureCreated();
 
+            if (!created) { } 
+            
             insert_xml_data(context);
-
             read_testing(context);
+            
             
         }
 

@@ -6,7 +6,10 @@ namespace Data.Models
 {
     public class DimensionalClass
     {
-        public DimensionalClass() { } //No parameter constructor
+        public DimensionalClass() //No parameter constructor
+        {
+            Units = new List<UnitOfMeasure>();
+        } 
 
         public DimensionalClass(string notation)
         {
