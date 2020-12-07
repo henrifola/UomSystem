@@ -1,26 +1,38 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using Contracts.InitializerContracts;
 using Data;
 using Data.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 
 namespace DatabaseInitializer
 {
-    public class DbInitializer
+    
+    public static class DbInitializer //: IDbInitializer
     {
-        public static void Initialize(RepositoryContext context)
+        public static void Initialize(DbContext context)
         {
+            var repContext = context as RepositoryContext;
+
+            if (repContext == null)
+            {
+                throw new DataException();
+            }
 
             context.Database.EnsureDeleted();
 
             var created= context.Database.EnsureCreated();
 
-            if (!created) { } 
+            if (!created) {
+                throw new NotImplementedException();
+            } 
             
-            insert_xml_data(context);
-            read_testing(context);
+            insert_xml_data(repContext);
+            read_testing(repContext);
             
             
         }
