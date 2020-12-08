@@ -68,8 +68,8 @@ namespace DatabaseInitializer
             
             // Quantity types 
             
-            var u = context.UnitOfMeasures.Find("yr(100k)"); //gir object
-            var c= context.CustomaryUnits.Find("yr(100k)"); //gir object
+            var u = context.UnitOfMeasures.Find("uS"); //gir object
+            var c= context.CustomaryUnits.Find("uS"); //gir object
             var b = context.CustomaryUnits.Find("1Pm"); //gir null
             var b2 = context.UnitOfMeasures.Find("1Pm"); //gir object
             Console.WriteLine(u.Id);

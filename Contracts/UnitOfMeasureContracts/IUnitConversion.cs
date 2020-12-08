@@ -4,7 +4,7 @@ using Microsoft.VisualBasic;
 
 namespace Contracts.UnitOfMeasureContracts
 {
-    public interface IConversion
+    public interface IUnitConversion
     {
         Double Conversion(String inputUnitId, String outputUnitId, Double quantity);
         

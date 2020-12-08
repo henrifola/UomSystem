@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.UnitOfMeasureContracts;
 using Data;
+using EngineeringUnitsCore.Converter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,9 +30,7 @@ namespace UomSystem
         public void ConfigureServices(IServiceCollection services)
         {
             // kan hende databasen bør legges til i Data prosjektet, men how?
-            //TODO FIX BUG HER
-            //services.AddDbContext<RepositoryContext>(options => options.UseNpgsql("Host=my_host;Database=my_db;Username=my_user;Password=my_pw"));
-            
+           
             services.AddDbContext<RepositoryContext>(options => options.UseSqlite("Filename=units.db")); //..\\Data\\
             
             services.AddControllers();
