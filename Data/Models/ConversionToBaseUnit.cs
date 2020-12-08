@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,11 @@ namespace Data.Models
             OriginUnit = originUnit;
             BaseUnit = baseUnit;
 
+        }
+
+        public Double Convert(Double quantity)
+        {
+            return (A + B * quantity) / (C + D * quantity);
         }
 
         

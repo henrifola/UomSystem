@@ -1,26 +1,38 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using Contracts.InitializerContracts;
 using Data;
 using Data.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 
 namespace DatabaseInitializer
 {
-    public class DbInitializer
+    
+    public static class DbInitializer //: IDbInitializer
     {
-        public static void Initialize(RepositoryContext context)
+        public static void Initialize(DbContext context)
         {
+            var repContext = context as RepositoryContext;
+
+            if (repContext == null)
+            {
+                throw new DataException();
+            }
 
             context.Database.EnsureDeleted();
 
             var created= context.Database.EnsureCreated();
 
-            if (!created) { } 
+            if (!created) {
+                throw new NotImplementedException();
+            } 
             
-            insert_xml_data(context);
-            read_testing(context);
+            insert_xml_data(repContext);
+            read_testing(repContext);
             
             
         }
@@ -56,8 +68,8 @@ namespace DatabaseInitializer
             
             // Quantity types 
             
-            var u = context.UnitOfMeasures.Find("yr(100k)"); //gir object
-            var c= context.CustomaryUnits.Find("yr(100k)"); //gir object
+            var u = context.UnitOfMeasures.Find("uS"); //gir object
+            var c= context.CustomaryUnits.Find("uS"); //gir object
             var b = context.CustomaryUnits.Find("1Pm"); //gir null
             var b2 = context.UnitOfMeasures.Find("1Pm"); //gir object
             Console.WriteLine(u.Id);

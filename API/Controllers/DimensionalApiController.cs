@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace UomSystem.Controllers
 {
     
-    //this is a temproray solution, will be implemented with engineerunitscore instead
+    //this is a temproray solution, will be implemented with engineerunitscore module instead
     
     [ApiController]
     [Route("DimensionalClass")]

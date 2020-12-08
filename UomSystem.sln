@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{2DA0823D-D602-4DB9-8A5F-5BFED05269CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EngineeringUnitscore", "EngineeringUnitscore\EngineeringUnitscore.csproj", "{D151F831-81F1-4C7E-98A8-3F39169CEC95}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EngineeringUnitCore", "EngineeringUnitCore\EngineeringUnitCore.csproj", "{D151F831-81F1-4C7E-98A8-3F39169CEC95}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseInitializer", "DatabaseInitializer\DatabaseInitializer.csproj", "{F8534EA4-1128-4ECB-9FB5-6970151DE29A}"
 EndProject
