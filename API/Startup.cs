@@ -29,10 +29,13 @@ namespace UomSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // kan hende databasen bør legges til i Data prosjektet, men how?
-           
-            services.AddDbContext<RepositoryContext>(options => options.UseSqlite("Filename=units.db")); //..\\Data\\
             
+            //sqlite connection for testing
+            //services.AddDbContext<RepositoryContext>(options => options.UseSqlite("Filename=units.db")); //..\\Data\\
+            
+            //postgres connection with connection string defined in appsettings.json 
+            services.AddDbContext<RepositoryContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
         }
 
