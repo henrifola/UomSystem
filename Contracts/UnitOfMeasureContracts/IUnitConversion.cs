@@ -6,7 +6,7 @@ namespace Contracts.UnitOfMeasureContracts
 {
     public interface IUnitConversion
     {
-        Double Conversion(String inputUnitId, String outputUnitId, Double quantity);
+        ConversionResult Conversion(String inputUnitId, String outputUnitId, Double quantity);
         
     }
 }
