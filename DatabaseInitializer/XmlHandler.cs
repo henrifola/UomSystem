@@ -60,6 +60,7 @@ namespace DatabaseInitializer
                 if (!isBaseUnit)
                 {
                     CustomaryUnit unitOfMeasure = new CustomaryUnit();
+                    unitOfMeasure.BaseUnitId=(string) unit.Attribute("id");
                     CreateUofMeasure(unit,unitOfMeasure);
                     AddCustomaryComponent(unit,unitOfMeasure);
                     CustomaryUnits.Add(unitOfMeasure);
@@ -89,6 +90,7 @@ namespace DatabaseInitializer
             var conversion = unit.Descendants("ConversionToBaseUnit").First();
 
             string baseUnit = (string) conversion.Attribute("baseUnit");
+            unitOfMeasure.BaseUnitId = baseUnit;
             
             var factor = conversion.Element("Factor");
 
@@ -96,6 +98,7 @@ namespace DatabaseInitializer
             {
                 unitOfMeasure.ConversionToBaseUnit = new ConversionToBaseUnit(baseUnit, id,
                     0.0,(double) factor, 1.0, 0.0);
+                
 
                 return;
             }

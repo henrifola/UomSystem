@@ -58,7 +58,7 @@ namespace DatabaseInitializer
             Console.WriteLine("reading data");
             Console.WriteLine();
             
-            var dimClass=context.DimenensionalClasses.Find("T");
+            var dimClass=context.DimensionalClasses.Find("T");
 
             Console.WriteLine("Units inside dim class "+ dimClass.Notation);
             foreach (var unit in dimClass.Units)

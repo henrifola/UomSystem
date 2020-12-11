@@ -24,12 +24,12 @@ namespace UomSystem.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_db.DimenensionalClasses);
+            return Ok(_db.DimensionalClasses);
         }
         [HttpGet("{notation}")]
         public IActionResult Get(string notation) 
         {
-            var dimensionalClass  = _db.DimenensionalClasses.Find(notation);
+            var dimensionalClass  = _db.DimensionalClasses.Find(notation);
 
             if (dimensionalClass == null)
             {

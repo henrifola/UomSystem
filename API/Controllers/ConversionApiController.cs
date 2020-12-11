@@ -31,7 +31,15 @@ namespace UomSystem.Controllers
             Console.WriteLine(unitIdIn);
             Console.WriteLine(unitIdOut);
             Console.WriteLine(quantity);
-            return Ok(_converter.Conversion(unitIdIn, unitIdOut, quantity));
+            try
+            {
+                return Ok(_converter.Conversion(unitIdIn, unitIdOut, quantity));
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
+            
         }
         
         //example tests:

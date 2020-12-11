@@ -17,6 +17,6 @@ namespace Data.Models
         [Key] 
         public string Notation { get; set; }
         public ICollection<UnitOfMeasureQuantityType> UnitOfMeasureQuantityTypes { get; set; }
-        //public ICollection<UnitOfMeasure> UnitOfMeasures { get; set; }
+        
     }
 }
