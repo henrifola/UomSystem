@@ -2,47 +2,39 @@ using System;
 using System.Linq;
 using Data;
 using Data.Models;
+using EngineeringUnitscore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UomSystem.Controllers
 {
     
-    //this is a temproray solution, will be implemented with engineerunitscore module instead
+  
     
     [ApiController]
     [Route("DimensionalClass")]
     public class DimensionalApiController : ControllerBase
     {
-        private readonly RepositoryContext _db;
+        private DimensionalHandler dimensionalHandler;
 
         public DimensionalApiController(RepositoryContext db)
         {
-            _db = db;
+            dimensionalHandler = new DimensionalHandler(db);
         }
         
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_db.DimensionalClasses);
+            var dimensionalClasses = dimensionalHandler.GetAllDimensionalClasses();
+            
+            return Ok(dimensionalClasses);
         }
         [HttpGet("{notation}")]
-        public IActionResult Get(string notation) 
+        public IActionResult GetUom(string notation)
         {
-            var dimensionalClass  = _db.DimensionalClasses.Find(notation);
-
-            if (dimensionalClass == null)
-            {
-                return NotFound();
-            }
-            
-            foreach (var unit in dimensionalClass.Units)
-            {
-                Console.WriteLine(unit.Id);
-            }
-            
-            
-            return Ok(dimensionalClass);
+            return Ok(dimensionalHandler.GetUomsByClass(notation));
         }
     }
 }
+
+
