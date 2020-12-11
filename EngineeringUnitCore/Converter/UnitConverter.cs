@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Contracts.UnitOfMeasureContracts;
 using Data;
 using Data.Models;
@@ -14,7 +15,12 @@ namespace EngineeringUnitsCore.Converter
         {
             _context = context;
         }
-        
+
+        private async Task<string> checkBase(string inputUnitId, string outputUnitId)
+        {
+
+            return "xd";
+        } 
         
         public double Conversion(string inputUnitId, string outputUnitId, double quantity)
         {

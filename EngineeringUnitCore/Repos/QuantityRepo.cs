@@ -1,4 +1,4 @@
-namespace UomRepository.CRUD
+namespace EngineeringUnitscore.Repos
 {
     public class QuantityRepo
     {
