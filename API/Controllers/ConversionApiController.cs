@@ -1,9 +1,7 @@
-using System;
 using System.Threading.Tasks;
 using Contracts.UnitOfMeasureContracts;
 using Data.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace UomSystem.Controllers
 {
@@ -12,11 +10,9 @@ namespace UomSystem.Controllers
     public class ConversionApiController : ControllerBase
     {
         private readonly IRepositoryWrapper _wrapper;
-        private readonly IMemoryCache _memoryCache;
-        public ConversionApiController(IRepositoryWrapper wrapper, IMemoryCache memoryCache) 
+        public ConversionApiController(IRepositoryWrapper wrapper) 
         {
             _wrapper = wrapper;
-            _memoryCache = memoryCache;
         }
         [HttpGet]
         public IActionResult Index()

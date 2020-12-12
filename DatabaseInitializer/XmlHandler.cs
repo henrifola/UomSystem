@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,7 +7,6 @@ using Data.Models;
 
 namespace DatabaseInitializer
 {
-    // TODO parsing diagram
     public class XmlHandler 
     {
         private readonly XElement xml;
@@ -17,7 +15,6 @@ namespace DatabaseInitializer
 
         public Dictionary<String,QuantityType> QuantityTypesDict { get; }
         public HashSet<SameUnit> SameUnits { get; }
-        
 
         Dictionary<string,DimensionalClass> dimensionalClasses = new Dictionary<string, DimensionalClass>();
 
@@ -40,23 +37,18 @@ namespace DatabaseInitializer
             return XElement.Load(filePath);
 
         }
-        
 
         public void CreateUoms()
         {
-            
-
             var units = from item in xml.Descendants("UnitOfMeasure") select item;
             Console.WriteLine(units.FirstOrDefault());
             Console.WriteLine(units.Last());
-            
-            
+
             foreach (var unit in units)
             {
                 //no BaseUnit tag means it is a customary unit
                 bool isBaseUnit = unit.Descendants("BaseUnit").Any();
-                
-                 
+
                 if (!isBaseUnit)
                 {
                     CustomaryUnit unitOfMeasure = new CustomaryUnit();

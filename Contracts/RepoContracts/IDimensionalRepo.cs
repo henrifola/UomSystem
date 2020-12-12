@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data.Models;
 
-namespace Contracts.UnitOfMeasureContracts
+namespace Contracts.RepoContracts
 {
     public interface IDimensionalRepo
     {

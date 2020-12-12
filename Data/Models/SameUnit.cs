@@ -1,6 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
-
 namespace Data.Models
 {
     
@@ -12,7 +10,6 @@ namespace Data.Models
         {
             UnitId = unitId;
         }
-        
         
         [Key]
         public string UnitId { get; set; }

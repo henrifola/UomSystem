@@ -1,9 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 
 namespace Data.Models
 {
-    //ikke db felt
-    
     public class ConversionResult 
     {
         public ConversionResult(double quantity, string unitId, string annotation)
@@ -12,7 +9,6 @@ namespace Data.Models
             UnitId = unitId;
             Annotation = annotation;
         }
-
         public double Quantity { get; set; }
         public string UnitId { get; set; }
         

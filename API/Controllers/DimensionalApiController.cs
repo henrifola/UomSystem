@@ -19,12 +19,10 @@ namespace UomSystem.Controllers
             _wrapper = wrapper;
             _memoryCache = memoryCache;
         }
-        
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            //var dimensionalClasses = dimensionalHandler.GetAllDimensionalClasses();
             return Ok(_wrapper.DimensionalClass.ListAllDimensions());
         }
         [HttpGet("{notation}")]

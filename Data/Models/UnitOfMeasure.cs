@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
-
 namespace Data.Models
 {
     public class UnitOfMeasure
@@ -29,13 +27,9 @@ namespace Data.Models
                 Console.WriteLine(e);
             }
             
-            
             DimensionalClass = dimensionalClass;
-            
             UnitOfMeasureQuantityTypes = new List<UnitOfMeasureQuantityType>();
-
             SameUnits = sameUnits;
-
         }
 
         public UnitOfMeasure(string id, string annotation, string name)
@@ -44,8 +38,7 @@ namespace Data.Models
             Annotation = annotation;
             Name = name;
         }
-
-
+        
         public string Annotation { get; set; }
         public DimensionalClass DimensionalClass { get; set; }
         [Key]
@@ -54,7 +47,6 @@ namespace Data.Models
         public string DimensionClassId { get; set; }
         public ICollection<UnitOfMeasureQuantityType> UnitOfMeasureQuantityTypes { get; set; }
         public ICollection<SameUnit> SameUnits { get; set; }
-        
         
     }
 }
