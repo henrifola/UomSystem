@@ -1,48 +1,27 @@
-using System;
+using System.Threading.Tasks;
 using Contracts.UnitOfMeasureContracts;
-using Data;
-using EngineeringUnitsCore.Converter;
+using Data.Models;
 using Microsoft.AspNetCore.Mvc;
-
 namespace UomSystem.Controllers
 {
     [ApiController]
     [Route("Convert")]
     public class ConversionApiController : ControllerBase
     {
-        private readonly IUnitConversion _converter;
-
-        public ConversionApiController(RepositoryContext context) //TODO inject the converter instead
+        private readonly IRepositoryWrapper _wrapper;
+        public ConversionApiController(IRepositoryWrapper wrapper) 
         {
-            _converter = new UnitConverter(context);
+            _wrapper = wrapper;
         }
-        
-
         [HttpGet]
         public IActionResult Index()
         {
-             
             return Ok("Convert/unit_id_in+unit_id_out+quantity"); 
         }
-
         [HttpGet("{unitIdIn}+{unitIdOut}+{quantity}")]
-        public IActionResult Get(string unitIdIn, string unitIdOut, double quantity)
+        public async Task<ConversionResult> Get(string unitIdIn, string unitIdOut, double quantity)
         {
-            Console.WriteLine(unitIdIn);
-            Console.WriteLine(unitIdOut);
-            Console.WriteLine(quantity);
-            try
-            {
-                return Ok(_converter.Conversion(unitIdIn, unitIdOut, quantity));
-            }
-            catch (ArgumentException e)
-            {
-                return NotFound(e.Message);
-            }
-            
+            return await _wrapper.UnitConverter.Conversion(unitIdIn, unitIdOut, quantity);
         }
-        
-        //example tests:
-        
     }
 }

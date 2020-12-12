@@ -7,6 +7,7 @@ namespace Data.Models
         
         
         public ConversionToBaseUnit ConversionToBaseUnit { get; set; }
-        public int ConversionToBaseUnitId { get; set; }
+       // public int ConversionToBaseUnitId { get; set; }
+        public string BaseUnitId { get; set; }
     }
 }

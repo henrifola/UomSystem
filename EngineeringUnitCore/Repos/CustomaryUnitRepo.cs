@@ -1,6 +1,9 @@
+using System;
+using System.Threading.Tasks;
 using Contracts.RepoContracts;
 using Data;
 using Data.Models;
+using Microsoft.EntityFrameworkCore;
 using UomRepository.Common;
 
 namespace EngineeringUnitscore.Repos
@@ -11,5 +14,18 @@ namespace EngineeringUnitscore.Repos
         public CustomaryUnitRepo(RepositoryContext context) : base(context)
         {
         }
+
+        public new async Task<CustomaryUnit> Get(string id)
+        {
+            
+            var unit = await Context
+                .CustomaryUnits
+                .Include(u => u.ConversionToBaseUnit)   
+                .FirstOrDefaultAsync(u => u.Id == id);
+            
+            
+            return unit;
+        }
     }
+    
 }

@@ -51,9 +51,6 @@ namespace Data.Models
         [Key]
         public string Id { get; set; }
         public string Name { get; set; }
-        
-        public string BaseUnitId { get; set; }
-        
         public string DimensionClassId { get; set; }
         public ICollection<UnitOfMeasureQuantityType> UnitOfMeasureQuantityTypes { get; set; }
         public ICollection<SameUnit> SameUnits { get; set; }

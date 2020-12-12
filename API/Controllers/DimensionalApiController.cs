@@ -1,48 +1,35 @@
-using System;
-using System.Linq;
-using Data;
-using Data.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Contracts.UnitOfMeasureContracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UomSystem.Controllers
 {
-    
-    //this is a temproray solution, will be implemented with engineerunitscore module instead
-    
     [ApiController]
     [Route("DimensionalClass")]
     public class DimensionalApiController : ControllerBase
     {
-        private readonly RepositoryContext _db;
+        private readonly IRepositoryWrapper _wrapper;
 
-        public DimensionalApiController(RepositoryContext db)
+        public DimensionalApiController(IRepositoryWrapper wrapper)
         {
-            _db = db;
+            _wrapper = wrapper;
         }
         
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_db.DimensionalClasses);
+            //var dimensionalClasses = dimensionalHandler.GetAllDimensionalClasses();
+            return Ok(_wrapper.DimensionalClass.ListAllDimensions());
         }
         [HttpGet("{notation}")]
-        public IActionResult Get(string notation) 
+        public async Task<List<string>> GetUom(string notation)
         {
-            var dimensionalClass  = _db.DimensionalClasses.Find(notation);
-
-            if (dimensionalClass == null)
-            {
-                return NotFound();
-            }
-            
-            foreach (var unit in dimensionalClass.Units)
-            {
-                Console.WriteLine(unit.Id);
-            }
-            
-            
-            return Ok(dimensionalClass);
+            //notation = notation.ToLower();
+            var dim = await _wrapper.DimensionalClass.ListUomForDimension(notation);
+            var units = await _wrapper.DimensionalClass.listUnits(dim);
+            return units;
         }
     }
 }

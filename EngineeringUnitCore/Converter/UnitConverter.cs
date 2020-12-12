@@ -1,85 +1,57 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
+using Contracts.RepoContracts;
 using Contracts.UnitOfMeasureContracts;
 using Data;
 using Data.Models;
-using Microsoft.EntityFrameworkCore;
+using EngineeringUnitscore.Repos;
 
 namespace EngineeringUnitsCore.Converter
 {
     public class UnitConverter : IUnitConversion
     {
-        private readonly RepositoryContext _context;
+        private readonly ICustomaryUnitRepo _customaryUnitRepo;
         public UnitConverter(RepositoryContext context)
         {
-            _context = context;
+            _customaryUnitRepo = new CustomaryUnitRepo(context);
         }
-
-        private async Task<string> checkBase(string inputUnitId, string outputUnitId)
+        public async Task<ConversionResult> Conversion(string inputUnitId, string outputUnitId, double quantity)
         {
-
-            return "xd";
-        } 
-        
-        public ConversionResult Conversion(string inputUnitId, string outputUnitId, double quantity)
-        {
-            var inputUnit = _context.UnitOfMeasures.Find(inputUnitId);
-            var outputUnit = _context.UnitOfMeasures.Find(outputUnitId);
-
-            if (inputUnit == null )
-                throw new ArgumentException("First unit does not exist");
-            
-            if(outputUnit == null)
-                throw new ArgumentException("Second unit does not exist");
-
-            if (inputUnit.BaseUnitId != outputUnit.BaseUnitId)
-            {
-                throw new ArgumentException("Cant convert units with different base unit");
-            }
-            
-            if (inputUnit == outputUnit)
-            {
-                return new ConversionResult(quantity,outputUnit);
-            }
-
-            if (inputUnit is CustomaryUnit) // customary -> base
-            {
-
-                var conversionToBaseUnit = _context.ConversionToBaseUnits.Find(inputUnitId);
-                                           
-
-                quantity = conversionToBaseUnit.Convert(quantity);
-                Console.WriteLine("customary -> base");
-            }
-
-            if (outputUnit is CustomaryUnit) // base -> customary
-            {
-
-                var conversionToBaseUnit = _context.ConversionToBaseUnits.Find(outputUnitId);
-
-
-                quantity = BaseToCustomary(conversionToBaseUnit, quantity);
-                Console.WriteLine("base -> customary");
-            }
-            Console.WriteLine("Conversion result="+quantity);
-            
-            return new ConversionResult(quantity,outputUnit);
+            if (ValidateConversion(inputUnitId, outputUnitId).Result is false) throw new ArgumentException("Cant convert units with different base unit");
+            var toBaseConversion = await ConversionToBase(inputUnitId, quantity);
+            var toCustomaryConversion = await ConversionToCustomary(outputUnitId, toBaseConversion);
+            var cu = await _customaryUnitRepo.Get(outputUnitId);
+            var conversionResult = new ConversionResult(toCustomaryConversion, cu.Id, cu.Annotation);
+            return conversionResult;
         }
-        
-        
-
-        private static Boolean IsBaseUnit(UnitOfMeasure uom)
+        private async Task<ConversionToBaseUnit> GetUnit(string unit)
         {
-            return !(uom is CustomaryUnit);
+            if (unit is null) throw new ArgumentException("Unit is null");
+            var inputUnit = await _customaryUnitRepo.Get(unit);
+            return inputUnit.ConversionToBaseUnit;
         }
-
-        //convert to customary:
-        // f(q) = (A-C*q) * (D*q-B)
-        
-        private static Double BaseToCustomary(ConversionToBaseUnit x, double quantity)
+        private async Task<double> ConversionToBase(string unit, double quantity)
         {
-            return (x.A - x.C * quantity) * (x.D * quantity - x.B);
+            var cu = await GetUnit(unit);
+            var conversionToBaseResult =  ConversionCalculation(cu.A, cu.B, cu.C, cu.D, quantity);
+            return conversionToBaseResult; 
+        }
+        private async Task<double> ConversionToCustomary(string unit, double baseConversion)
+        {
+            var cu = await GetUnit(unit);
+            var conversionToCustomaryResult =  ConversionCalculation(cu.A, cu.C, cu.B, cu.D, baseConversion);
+            return conversionToCustomaryResult;
+        }
+        //swap b and c when going from base to customary unit, and insert base conversion as x
+        private static double ConversionCalculation(double a, double b, double c, double d, double x)
+        {
+            return (a + (b * x)) / (c + (d * x));
+        }
+        private async Task<bool> ValidateConversion(string inputUnitId, string outputUnitId)
+        {
+            var fromBaseUnit = await GetUnit(inputUnitId);
+            var toBaseUnit = await GetUnit(outputUnitId);
+            return fromBaseUnit.BaseUnit == toBaseUnit.BaseUnit;
         }
     }
 }

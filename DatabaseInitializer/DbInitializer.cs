@@ -12,13 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage;
 namespace DatabaseInitializer
 {
     
-    public static class DbInitializer //: IDbInitializer
+    public class DbInitializer : IDbInitializer
     {
-        public static void Initialize(DbContext context)
+        private RepositoryContext _context;
+        public static void Initialize(RepositoryContext context)
         {
-            var repContext = context as RepositoryContext;
+            
 
-            if (repContext == null)
+            if (context == null)
             {
                 throw new DataException();
             }
@@ -31,8 +32,8 @@ namespace DatabaseInitializer
                 throw new NotImplementedException();
             } 
             
-            insert_xml_data(repContext);
-            read_testing(repContext);
+            insert_xml_data(context);
+            read_testing(context);
             
             
         }
