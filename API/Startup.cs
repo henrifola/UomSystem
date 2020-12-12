@@ -32,7 +32,7 @@ namespace UomSystem
         {
             
             //sqlite connection for testing
-            //services.AddDbContext<RepositoryContext>(options => options.UseSqlite("Filename=units.db")); //..\\Data\\
+            //services.AddDbContext<RepositoryContext>(options => options.UseSqlite("Filename=units.db")); 
             
             //postgres connection with connection string defined in appsettings.json 
             services.AddDbContext<RepositoryContext>(options =>

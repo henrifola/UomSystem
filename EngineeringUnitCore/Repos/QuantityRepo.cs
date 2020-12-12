@@ -31,11 +31,7 @@ namespace EngineeringUnitscore.Repos
                 .FirstOrDefaultAsync(u => u.Notation == qt);
             
             
-            /*
-            var UomQt = Context.UnitOfMeasureQuantityTypes
-                .Where(u => u.QuantityTypeId == qt)
-                .Include("UnitOfMeasures").ToList();
-                */
+           
             if (UomQt is null) throw new ArgumentException("Quantity type is null or invalid");
             Console.WriteLine(UomQt.Notation);
             return UomQt;

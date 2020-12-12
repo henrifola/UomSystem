@@ -16,7 +16,7 @@ namespace UomSystem.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return Ok("Convert/unit_id_in+unit_id_out+quantity"); 
+            return Ok("Correct usage: Convert/unit_id_in+unit_id_out+quantity"); 
         }
         [HttpGet("{unitIdIn}+{unitIdOut}+{quantity}")]
         public async Task<ConversionResult> Get(string unitIdIn, string unitIdOut, double quantity)

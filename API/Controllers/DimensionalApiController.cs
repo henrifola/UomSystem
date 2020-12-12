@@ -1,7 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Contracts.UnitOfMeasureContracts;
+using Data.Models;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace UomSystem.Controllers
 {
@@ -21,7 +24,11 @@ namespace UomSystem.Controllers
         public IActionResult GetAll()
         {
             //var dimensionalClasses = dimensionalHandler.GetAllDimensionalClasses();
-            return Ok(_wrapper.DimensionalClass.ListAllDimensions());
+            var dimensionalClasses = _wrapper.DimensionalClass.ListAllDimensions();
+
+            var stringRepresentation = dimensionalClasses.ToList().ConvertAll(x => x.Notation);
+            
+            return Ok(stringRepresentation);
         }
         [HttpGet("{notation}")]
         public async Task<List<string>> GetUom(string notation)
