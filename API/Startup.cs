@@ -39,6 +39,7 @@ namespace UomSystem
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+            services.AddMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

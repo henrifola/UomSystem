@@ -30,11 +30,6 @@ namespace EngineeringUnitscore.Repos
             if (UomDim is null) throw new ArgumentException("Dimension is null or invalid");
             return UomDim;
 
-            /*
-            return Context.DimensionalClasses
-                .Where(d => d.Notation == dimension)
-                .Include("UnitOfMeasures").FirstOrDefault()?.Units;
-                */
         }
         
         public async Task<List<string>> listUnits(DimensionalClass uomDim)

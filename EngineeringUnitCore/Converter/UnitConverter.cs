@@ -5,15 +5,18 @@ using Contracts.UnitOfMeasureContracts;
 using Data;
 using Data.Models;
 using EngineeringUnitscore.Repos;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace EngineeringUnitsCore.Converter
 {
     public class UnitConverter : IUnitConversion
     {
         private readonly ICustomaryUnitRepo _customaryUnitRepo;
-        public UnitConverter(RepositoryContext context)
+        private readonly IMemoryCache _memoryCache;
+        public UnitConverter(RepositoryContext context, IMemoryCache memoryCache)
         {
             _customaryUnitRepo = new CustomaryUnitRepo(context);
+            _memoryCache = memoryCache;
         }
         public async Task<ConversionResult> Conversion(string inputUnitId, string outputUnitId, double quantity)
         {
@@ -32,15 +35,25 @@ namespace EngineeringUnitsCore.Converter
         }
         private async Task<double> ConversionToBase(string unit, double quantity)
         {
-            var cu = await GetUnit(unit);
-            var conversionToBaseResult =  ConversionCalculation(cu.A, cu.B, cu.C, cu.D, quantity);
-            return conversionToBaseResult; 
+            if (_memoryCache.TryGetValue(unit, out ConversionToBaseUnit cacheOut)) return ConversionCalculation(cacheOut.A, cacheOut.B, cacheOut.C, cacheOut.D, quantity);
+            
+            Console.WriteLine("Base conversion not cached, caching now");
+            
+            cacheOut = await GetUnit(unit);
+            var cacheEntryOptions = new MemoryCacheEntryOptions();
+            _memoryCache.Set(unit, cacheOut, cacheEntryOptions); 
+            return ConversionCalculation(cacheOut.A, cacheOut.B, cacheOut.C, cacheOut.D, quantity); 
         }
         private async Task<double> ConversionToCustomary(string unit, double baseConversion)
         {
-            var cu = await GetUnit(unit);
-            var conversionToCustomaryResult =  ConversionCalculation(cu.A, cu.C, cu.B, cu.D, baseConversion);
-            return conversionToCustomaryResult;
+            if (_memoryCache.TryGetValue(unit, out ConversionToBaseUnit cacheOut)) return ConversionCalculation(cacheOut.A, cacheOut.C, cacheOut.B, cacheOut.D, baseConversion);
+            
+            Console.WriteLine("Customary conversion not cached, caching now");
+            
+            cacheOut = await GetUnit(unit);
+            var cacheEntryOptions = new MemoryCacheEntryOptions();
+            _memoryCache.Set(unit, cacheOut, cacheEntryOptions);
+            return ConversionCalculation(cacheOut.A, cacheOut.C, cacheOut.B, cacheOut.D, baseConversion);
         }
         //swap b and c when going from base to customary unit, and insert base conversion as x
         private static double ConversionCalculation(double a, double b, double c, double d, double x)

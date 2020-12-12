@@ -3,6 +3,7 @@ using Contracts.UnitOfMeasureContracts;
 using Data;
 using EngineeringUnitsCore.Converter;
 using EngineeringUnitscore.Repos;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace UomRepository.Wrapper
 {
@@ -15,10 +16,12 @@ namespace UomRepository.Wrapper
         private ICustomaryUnitRepo _customaryUnitRepo;
         private IUnitConversion _unitConversion;
         private IUnitOfMeasureRepo _unitOfMeasureRepo;
+        private readonly IMemoryCache _memoryCache;
 
-        public RepositoryWrapper(RepositoryContext context)
+        public RepositoryWrapper(RepositoryContext context, IMemoryCache memoryCache)
         {
             _context = context;
+            _memoryCache = memoryCache;
         }
 
        public IQuantityRepo QuantityType 
@@ -31,7 +34,7 @@ namespace UomRepository.Wrapper
            => _customaryUnitRepo ??= new CustomaryUnitRepo(_context);
        
        public IUnitConversion UnitConverter 
-           => _unitConversion ??= new UnitConverter(_context);
+           => _unitConversion ??= new UnitConverter(_context, _memoryCache);
        
        public IUnitOfMeasureRepo UnitOfMeasure 
            => _unitOfMeasureRepo ??= new UnitOfMeasureRepo(_context);
