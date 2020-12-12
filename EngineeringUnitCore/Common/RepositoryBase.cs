@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Contracts.RepoContracts;
 using Contracts.UnitOfMeasureContracts;
@@ -13,7 +14,7 @@ namespace UomRepository.Common
 
         public void Create(T e)
         {
-            throw new System.NotImplementedException();
+            Context.Set<T>().AddAsync(e);
         }
 
         public async Task<T> Get(string id)
@@ -21,19 +22,19 @@ namespace UomRepository.Common
             return await Context.Set<T>().FindAsync(id);
         }
 
-        public Task<IList<T>> GetAll()
+        public ICollection<T> GetAll()
         {
-            throw new System.NotImplementedException();
+            return Context.Set<T>().ToList();
         }
 
         public void update(T e)
         {
-            throw new System.NotImplementedException();
+             Context.Set<T>().Update(e);
         }
 
         public void delete(T e)
         {
-            throw new System.NotImplementedException();
+            Context.Set<T>().Remove(e);
         }
     }
 }

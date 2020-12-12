@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic;
 
 namespace Contracts.RepoContracts
 {
@@ -8,7 +10,7 @@ namespace Contracts.RepoContracts
             //CRUD
             void Create(T e);
             Task<T> Get(string id);
-            Task<IList<T>> GetAll();
+            ICollection<T> GetAll();
             void update(T e);
             void delete(T e);
         }

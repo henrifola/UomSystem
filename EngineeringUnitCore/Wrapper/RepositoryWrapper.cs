@@ -22,6 +22,7 @@ namespace UomRepository.Wrapper
         {
             _context = context;
             _memoryCache = memoryCache;
+            
         }
 
        public IQuantityRepo QuantityType 
