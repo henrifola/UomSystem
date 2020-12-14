@@ -35,20 +35,15 @@ namespace EngineeringUnitsCore.Converter
                 case false when inputBase is false:
                     return await bothCustom(inputUnitId, outputUnitId, quantity);
                 case true when inputBase is true:
-                    return await bothBase(inputUnitId, outputUnitId, quantity);
+                    var cu = await _unitOfMeasureRepo.Get(outputUnitId);
+                    return new ConversionResult(quantity, cu.Id, cu.Annotation);
                 case false when inputBase is true:
                     return await baseInput(inputUnitId, outputUnitId, quantity);
                 case true when inputBase is false:
                     return await baseOutput(inputUnitId, outputUnitId, quantity);
             }
        return new ConversionResult(0, "unknown", "unknown"); }
-
-        private async Task<ConversionResult> bothBase(string inputUnitId, string outputUnitId, double quantity)
-        {
-            var cu = await _unitOfMeasureRepo.Get(outputUnitId);
-            return new ConversionResult(quantity, cu.Id, cu.Annotation);
-        }
-
+        
         private async Task<ConversionResult> baseInput(string inputUnitId, string outputUnitId, double quantity)
         {
             //only need to convert TO customary
@@ -74,7 +69,6 @@ namespace EngineeringUnitsCore.Converter
             var toBaseConversion = await ConversionToBase(inputUnitId, quantity);
             var toCustomaryConversion = await ConversionToCustomary(outputUnitId, toBaseConversion);
             var cu = await _customaryUnitRepo.Get(outputUnitId);
-           
             var conversionResult = new ConversionResult(toCustomaryConversion, cu.Id, cu.Annotation);
             return conversionResult;
         }
