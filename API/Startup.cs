@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Contracts.UnitOfMeasureContracts;
 using Data;
 using EngineeringUnitsCore.Converter;
+using EngineeringUnitscore.Wrapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,7 +15,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using UomRepository.Wrapper;
 
 namespace UomSystem
 {
@@ -38,7 +38,7 @@ namespace UomSystem
             services.AddDbContext<RepositoryContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
-            services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+            services.AddScoped<IEngineeringUnitsWrapper, EngineeringUnitsWrapper>();
             services.AddMemoryCache();
         }
 

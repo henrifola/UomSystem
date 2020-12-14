@@ -9,8 +9,8 @@ namespace UomSystem.Controllers
     [Route("Convert")]
     public class ConversionApiController : ControllerBase
     {
-        private readonly IRepositoryWrapper _wrapper;
-        public ConversionApiController(IRepositoryWrapper wrapper) 
+        private readonly IEngineeringUnitsWrapper _wrapper;
+        public ConversionApiController(IEngineeringUnitsWrapper wrapper) 
         {
             _wrapper = wrapper;
         }

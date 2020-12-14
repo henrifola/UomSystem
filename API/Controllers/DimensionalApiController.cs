@@ -10,11 +10,10 @@ namespace UomSystem.Controllers
     [Route("DimensionalClass")]
     public class DimensionalApiController : ControllerBase
     {
-        private readonly IRepositoryWrapper _wrapper;
+        private readonly IEngineeringUnitsWrapper _wrapper;
         private readonly IMemoryCache _memoryCache;
 
-
-        public DimensionalApiController(IRepositoryWrapper wrapper, IMemoryCache memoryCache)
+        public DimensionalApiController(IEngineeringUnitsWrapper wrapper, IMemoryCache memoryCache)
         {
             _wrapper = wrapper;
             _memoryCache = memoryCache;

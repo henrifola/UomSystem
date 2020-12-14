@@ -10,9 +10,9 @@ namespace UomSystem.Controllers
     [Route("QuantityType")]
     public class QuantityApiController : ControllerBase
     {
-        private readonly IRepositoryWrapper _wrapper;
+        private readonly IEngineeringUnitsWrapper _wrapper;
         private readonly IMemoryCache _memoryCache;
-        public QuantityApiController(IRepositoryWrapper wrapper, IMemoryCache memoryCache)
+        public QuantityApiController(IEngineeringUnitsWrapper wrapper, IMemoryCache memoryCache)
         {
             _wrapper = wrapper;
             _memoryCache = memoryCache;

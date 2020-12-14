@@ -2,7 +2,7 @@ using Contracts.RepoContracts;
 
 namespace Contracts.UnitOfMeasureContracts
 {
-    public interface IRepositoryWrapper
+    public interface IEngineeringUnitsWrapper
     {
    
         IQuantityRepo QuantityType { get;  }

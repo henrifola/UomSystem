@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.RepoContracts;
-using Contracts.UnitOfMeasureContracts;
 using Data;
 using Data.Models;
 using Microsoft.EntityFrameworkCore;
 using UomRepository.Common;
 
-namespace EngineeringUnitscore.Repos
+namespace EngineeringUnitscore.Accessors
 {
     public class QuantityRepo : RepositoryBase<QuantityType>, IQuantityRepo
 

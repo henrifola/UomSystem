@@ -1,13 +1,14 @@
 using Contracts.RepoContracts;
 using Contracts.UnitOfMeasureContracts;
 using Data;
+using EngineeringUnitscore.Accessors;
 using EngineeringUnitsCore.Converter;
 using EngineeringUnitscore.Repos;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace UomRepository.Wrapper
+namespace EngineeringUnitscore.Wrapper
 {
-    public class RepositoryWrapper : IRepositoryWrapper
+    public class EngineeringUnitsWrapper : IEngineeringUnitsWrapper
 
     {
         private readonly RepositoryContext _context;
@@ -18,7 +19,7 @@ namespace UomRepository.Wrapper
         private IUnitOfMeasureRepo _unitOfMeasureRepo;
         private readonly IMemoryCache _memoryCache;
 
-        public RepositoryWrapper(RepositoryContext context, IMemoryCache memoryCache)
+        public EngineeringUnitsWrapper(RepositoryContext context, IMemoryCache memoryCache)
         {
             _context = context;
             _memoryCache = memoryCache;
