@@ -1,9 +1,11 @@
+using System.Threading.Tasks;
 using Contracts.RepoContracts;
 using Data;
 using Data.Models;
+using Microsoft.EntityFrameworkCore;
 using UomRepository.Common;
 
-namespace EngineeringUnitscore.Repos
+namespace EngineeringUnitscore.Accessors
 {
     //Class to access the uom repo
     public class UnitOfMeasureRepo: RepositoryBase<UnitOfMeasure>, IUnitOfMeasureRepo
@@ -12,6 +14,17 @@ namespace EngineeringUnitscore.Repos
     {
         public UnitOfMeasureRepo(RepositoryContext context) : base(context)
         {
+        }
+        
+        public async Task<UnitOfMeasure>Get(string id)
+        {
+            
+            var unit = await Context
+                .UnitOfMeasures 
+                .FirstOrDefaultAsync(u => u.Id == id);
+            
+            
+            return unit;
         }
     }
 }

@@ -22,8 +22,6 @@ namespace EngineeringUnitscore.Repos
                 .CustomaryUnits
                 .Include(u => u.ConversionToBaseUnit)   
                 .FirstOrDefaultAsync(u => u.Id == id);
-            
-            
             return unit;
         }
     }
