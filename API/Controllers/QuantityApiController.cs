@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Contracts.UnitOfMeasureContracts;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,9 @@ namespace UomSystem.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_wrapper.QuantityType.ListAllQuantityTypes());
+            var quantityTypes = _wrapper.QuantityType.ListAllQuantityTypes();
+            var result = quantityTypes.Select(x => x.Notation);
+            return Ok(result);
         }
         [HttpGet("{notation}")]
         public async Task<List<string>> GetUom(string notation)

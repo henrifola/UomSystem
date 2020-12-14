@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Contracts.UnitOfMeasureContracts;
+using Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -22,7 +24,11 @@ namespace UomSystem.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_wrapper.DimensionalClass.ListAllDimensions());
+            var dimensionalClasses = _wrapper.DimensionalClass.ListAllDimensions();
+
+            var result = dimensionalClasses.Select(x => x.Notation);
+            
+            return Ok(result);
         }
         [HttpGet("{notation}")]
         public async Task<List<string>> GetUom(string notation)
