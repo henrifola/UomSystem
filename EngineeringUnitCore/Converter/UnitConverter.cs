@@ -101,7 +101,6 @@ namespace EngineeringUnitsCore.Converter
         private async Task<double> ConversionToCustomary(string unit, double baseConversion)
         {
             if (_memoryCache.TryGetValue(unit, out ConversionToBaseUnit cacheOut)) return ConversionCalculation(cacheOut.A, cacheOut.C, cacheOut.B, cacheOut.D, baseConversion);
-            
             Console.WriteLine("Customary conversion not cached, caching now");
             
             cacheOut = await GetCacheUnit(unit);
@@ -119,10 +118,7 @@ namespace EngineeringUnitsCore.Converter
         {
             if (unit is null) throw new ArgumentException("Unit is null");
             var inputUnit = await _customaryUnitRepo.Get(unit);
-            if (inputUnit is { }) return inputUnit.ConversionToBaseUnit;
-            var cs = new ConversionToBaseUnit();
-            cs.A = cs.B = cs.C = cs.D = 0;
-            return cs;
+            return inputUnit.ConversionToBaseUnit;
         }
         private async Task<bool> ValidateConversion(string inputUnitId, string outputUnitId)
         {
