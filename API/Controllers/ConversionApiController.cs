@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Contracts.UnitOfMeasureContracts;
 using Data.Models;
@@ -17,12 +18,16 @@ namespace UomSystem.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return Ok("Convert/unit_id_in+unit_id_out+quantity"); 
+            return Ok("USAGE: Convert/unit_id_in+unit_id_out+quantity"); 
         }
         [HttpGet("{unitIdIn}+{unitIdOut}+{quantity}")]
         public async Task<ConversionResult> Get(string unitIdIn, string unitIdOut, double quantity)
         {
+            
             return await _wrapper.UnitConverter.Conversion(unitIdIn, unitIdOut, quantity);
+            
+            
+            
         }
     }
 
