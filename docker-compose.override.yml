@@ -10,3 +10,12 @@ services:
       - "443"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+
+#      services:
+#  api:
+#    build:
+#      context: .
+#      dockerfile: API/Dockerfile
+#    volumes:
+#      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
