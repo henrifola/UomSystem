@@ -1,3 +1,4 @@
+  
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,11 +33,18 @@ namespace UomSystem
         {
             
             //sqlite connection for testing
-            //services.AddDbContext<RepositoryContext>(options => options.UseSqlite("Filename=units.db")); //..\\Data\\
-            
+            //services.AddDbContext<RepositoryContext>(options => options.UseSqlite("Filename=units.db")); //../Data/
+            var host = Environment.GetEnvironmentVariable("POSTGRES_HOST");
+            var port = Environment.GetEnvironmentVariable("POSTGRES_PORT");
+            var db = Environment.GetEnvironmentVariable("POSTGRES_DB");
+            var user = Environment.GetEnvironmentVariable("POSTGRES_USER");
+            var pass = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD");
+
+            var connectionUrl = $"host={host};port={port};database={db};username={user};password={pass};";
+            Console.WriteLine(connectionUrl);
             //postgres connection with connection string defined in appsettings.json 
             services.AddDbContext<RepositoryContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(connectionUrl));
             services.AddControllers();
             services.AddScoped<IEngineeringUnitsWrapper, EngineeringUnitsWrapper>();
             services.AddMemoryCache();

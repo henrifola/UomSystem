@@ -31,7 +31,7 @@ namespace DatabaseInitializer
 
         public XElement ReadFile()
         {
-            var filename = "..\\DatabaseInitializer\\poscUnits22.xml";
+            var filename = "DatabaseInitializer/poscUnits22.xml";
             var currentDirectory = Directory.GetCurrentDirectory();
             var filePath = Path.Combine(currentDirectory, filename);
             return XElement.Load(filePath);

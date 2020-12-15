@@ -4,15 +4,40 @@ services:
   nginx-proxy:
     image: nginx
     depends_on:
-      - API
+      - api
     ports:
-      - 80:80
+      - "80:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
 
-services:
   api:
     image: ${DOCKER_REGISTRY-}api
     build:
       context: .
-      dockerfile: API/Dockerfile
+      dockerfile: Dockerfile
+    expose:
+      - "80"
+    environment: 
+      POSTGRES_USER: postgres #hent miljøvariabel eller fallback default
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: unitsDB
+      POSTGRES_PORT: 5432
+      POSTGRES_HOST: postgres # Navnet til servicen
+    depends_on:
+      - postgres
+    volumes:
+      - ./DatabaseInitializer/poscUnits22.xml:/app/DatabaseInitializer/poscUnits22.xml
+
+  postgres:
+    image: postgres
+    ports:
+      - "5432"
+    environment: 
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: unitsDB
+
+volumes: 
+  postgres:    
+
+  
