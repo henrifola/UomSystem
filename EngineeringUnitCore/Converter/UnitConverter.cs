@@ -35,6 +35,8 @@ namespace EngineeringUnitsCore.Converter
                 case false when inputBase is false:
                     return await bothCustom(inputUnitId, outputUnitId, quantity);
                 case true when inputBase is true:
+                    if (inputUnitId != outputUnitId)
+                        throw new ArgumentException("Cant convert units with different base unit");
                     var cu = await _unitOfMeasureRepo.Get(outputUnitId);
                     return new ConversionResult(quantity, cu.Id, cu.Annotation);
                 case false when inputBase is true:
@@ -47,8 +49,13 @@ namespace EngineeringUnitsCore.Converter
         private async Task<ConversionResult> baseInput(string inputUnitId, string outputUnitId, double quantity)
         {
             //only need to convert TO customary
-            if (ValidateConversion(inputUnitId, outputUnitId).Result is false) throw new ArgumentException("Cant convert units with different base unit");
-            var toCustomaryConversion = await ConversionToCustomary(outputUnitId, quantity);
+          //  if (ValidateConversion(inputUnitId, outputUnitId).Result is false) throw new ArgumentException("Cant convert units with different base unit");
+
+          var IB = await GetBaseUnit(outputUnitId);
+          if (IB != inputUnitId) throw new ArgumentException("Cant convert units with different base unit");
+              
+          
+          var toCustomaryConversion = await ConversionToCustomary(outputUnitId, quantity);
             var cu = await _customaryUnitRepo.Get(outputUnitId);
             var conversionResult = new ConversionResult(toCustomaryConversion, cu.Id, cu.Annotation);
             return conversionResult;
@@ -56,8 +63,14 @@ namespace EngineeringUnitsCore.Converter
 
         private async Task<ConversionResult> baseOutput(string inputUnitId, string outputUnitId, double quantity)
         {
-            if (ValidateConversion(inputUnitId, outputUnitId).Result is false) throw new ArgumentException("Cant convert units with different base unit");
-            var toBaseConversion = await ConversionToBase(inputUnitId, quantity);
+           // if (ValidateConversion(inputUnitId, outputUnitId).Result is false) throw new ArgumentException("Cant convert units with different base unit");
+
+           var OB = await GetBaseUnit(inputUnitId);
+           if (OB != outputUnitId ) throw new ArgumentException("Cant convert units with different base unit");
+           
+           
+           
+           var toBaseConversion = await ConversionToBase(inputUnitId, quantity);
             var cu = await _unitOfMeasureRepo.Get(outputUnitId);
             var conversionResult = new ConversionResult(toBaseConversion, cu.Id, cu.Annotation);
             return conversionResult;
@@ -65,7 +78,13 @@ namespace EngineeringUnitsCore.Converter
 
         private async Task<ConversionResult> bothCustom(string inputUnitId, string outputUnitId, double quantity)
         {
-            if (ValidateConversion(inputUnitId, outputUnitId).Result is false) throw new ArgumentException("Cant convert units with different base unit");
+           // if (ValidateConversion(inputUnitId, outputUnitId).Result is false) throw new ArgumentException("Cant convert units with different base unit");
+            var IB = await GetBaseUnit(outputUnitId);
+            var OB = await GetBaseUnit(inputUnitId);
+            if (OB != IB) throw new ArgumentException("Cant convert units with different base unit");
+            
+            
+            
             var toBaseConversion = await ConversionToBase(inputUnitId, quantity);
             var toCustomaryConversion = await ConversionToCustomary(outputUnitId, toBaseConversion);
             var cu = await _customaryUnitRepo.Get(outputUnitId);
@@ -120,13 +139,7 @@ namespace EngineeringUnitsCore.Converter
             var inputUnit = await _customaryUnitRepo.Get(unit);
             return inputUnit.ConversionToBaseUnit;
         }
-        private async Task<bool> ValidateConversion(string inputUnitId, string outputUnitId)
-        {
-            var fromBase = await GetBaseUnit(inputUnitId);
-            var toBase = await GetBaseUnit(outputUnitId);
-            Console.WriteLine(fromBase + " " +  toBase);
-            return fromBase == toBase;
-        }
+
         
         private async Task<string> GetBaseUnit(string unit)
         {
@@ -138,7 +151,7 @@ namespace EngineeringUnitsCore.Converter
                 return baseU.Annotation;
             }
             var baseUnit = await _unitOfMeasureRepo.Get(inputUnit.BaseUnitId);
-            return baseUnit.Annotation;
+            return baseUnit.Id;
         }
     }
 }
