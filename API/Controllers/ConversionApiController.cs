@@ -28,13 +28,10 @@ namespace UomSystem.Controllers
             {
                 return Ok(_wrapper.UnitConverter.Conversion(unitIdIn, unitIdOut, quantity).Result);
             }
-            catch (ArgumentException e)
-            {
-                return BadRequest(e.Message + _usageMessage);
-            }
+           
             catch (Exception e)
             {
-                return Conflict(_usageMessage);
+                return Conflict(_usageMessage+"\n"+ e.Message);
                 Console.WriteLine(e);
             }
             
