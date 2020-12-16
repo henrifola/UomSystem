@@ -154,7 +154,7 @@ namespace EngineeringUnitsCore.Converter
                 return baseU.Annotation;
             }
             var baseUnit = await _unitOfMeasureRepo.Get(inputUnit.BaseUnitId);
-            return baseUnit.Annotation;
+            return baseUnit.Id;
         }
     }
 }
