@@ -11,12 +11,10 @@ namespace DatabaseInitializer
             if (context == null) throw new DataException();
             context.Database.EnsureDeleted();
             var created= context.Database.EnsureCreated();
-            if (!created) {
-                throw new NotImplementedException();
-            } 
+            
             
             insert_xml_data(context);
-            read_testing(context);
+            //read_testing(context);
         }
 
         private static void insert_xml_data(RepositoryContext context)

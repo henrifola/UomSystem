@@ -21,7 +21,7 @@ namespace EngineeringUnitscore.Accessors
             
             var unit = await Context
                 .UnitOfMeasures 
-                .FirstOrDefaultAsync(u => u.Id == id);
+                .FirstOrDefaultAsync(u => u.Id == id || u.Annotation==id);
             
             
             return unit;
